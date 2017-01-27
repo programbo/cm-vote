@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  if (cid && !campaign)
+    p
+      code= cid
+      | is not a valid campaign ID.
+  if (campaign)
+    h2 campaign
+    code= JSON.stringify(campaign)
+  else if (campaigns)
+    h2 campaigns (#{campaigns.length} found)
+    select#campaigns
+      option Select a campaign...
+      each campaign in campaigns
+        option(value=campaign.CampaignID) #{campaign.Name} (sent #{campaign.SentDate})
+  if (urls)
+    h2 urls (#{urls.length} urls)
+    dl
+      each votes, url in urls
+        dt #[a(href=url) #{url}]
+        dd: ul
+          each vote in votes
+            li #{vote.EmailAddress} (#{vote.Date})
+    svg#chart(xmlns="http://www.w3.org/2000/svg", width="284", viewbox="0 0 284 300" style="width:100%")
+      defs
+        style.
+          .cls-1 {
+          fill: red;
+          stroke: blue;
+          }
+          .cls-1, .cls-2 {
+          stroke-width: 1px;
+          }
+          .cls-2 {
+          fill: #282828;
+          stroke: #000;
+          fill-rule: evenodd;
+          }
+      g#bars
+        rect#bar3.cls-1(x="180", y="110", width="60", height="190")
+        text(x="150", y="150") Hello
+        rect#bar2.cls-1(x="100", y="180", width="60", height="120")
+        rect#bar1.cls-1(x="20", y="260", width="60", height="40")
+      g#axes
+        path#x-axis.cls-2(d="M1,300v-1H284v1H1Z")
+        path#y-axis.cls-2(d="M0,0H1V300H0V0Z")
