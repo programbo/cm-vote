@@ -1,20 +1,7 @@
 extends layout
 
 block content
-  h1 Hello
-  if (cid)
-    #chart(data-cid=cid, style="width: 600px; height: 600px")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js")
-    //- script.
-      $(function () {
-        console.log('chart', document.getElementById('chart')); // eslint-disable-line no-console
-        window.loadResults('#{cid}', function (data) {
-          var myPieChart = new Chart(document.getElementById('chart'), {
-            type: 'pie',
-            data: parseChartData(data.urls),
-            options: options
-          });
-
-          console.log('data', parseChartData(data.urls)); // eslint-disable-line no-console
-        });
-      });
+  select#campaigns(style="display:none;")
+    option Select a Sent Campaign
+  canvas#chart
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js")
