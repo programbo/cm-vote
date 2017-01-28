@@ -95,8 +95,8 @@ var drawResults = function drawResults(type, results, _ref2) {
       legend: {
         position: 'bottom',
         labels: {
-          fontSize: 16,
-          fontFamily: 'Averta W01 Black',
+          fontSize: 24,
+          fontFamily: 'Averta W01 Semibold',
           padding: 30,
           fontColor: '#fff'
         }
