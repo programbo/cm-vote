@@ -1,6 +1,6 @@
 const getCampaignId = () => {
   const parsedSearch = location.search.match(/cid=([0-9a-f]{32})/i);
-  if (parsedSearch.length === 2) {
+  if (parsedSearch && parsedSearch.length === 2) {
     return parsedSearch[1];
   }
 };
