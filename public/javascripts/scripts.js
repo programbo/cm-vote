@@ -28,11 +28,27 @@ const redirectWithCampaignId = (cid, location) => {
   location.href = `${protocol}//${host}${pathname}?cid=${cid}`;
 };
 
+const getCampaignsMenu = (menuId) => {
+  let campaignsMenu = document.getElementById(menuId);
+  if (!campaignsMenu) {
+    campaignsMenu = document.createElement('select');
+    campaignsMenu.id = menuId;
+    document.body.appendChild(campaignsMenu);
+    const option = document.createElement('option');
+    option.textContent = 'Select a Sent Campaign';
+    campaignsMenu.appendChild(option);
+  }
+  return campaignsMenu;
+}
+
 const activateCampaignsMenu = (campaigns) => {
-  const campaignsMenu = document.getElementById('campaigns');
+  const campaignsMenu = getCampaignsMenu('campaigns');
   if (campaignsMenu) {
     campaigns.forEach(({ CampaignID, Name, SentDate }) => {
-      $(`<option value="${CampaignID}">${Name} (Sent ${SentDate})</option>`).appendTo(campaignsMenu);
+      const option = document.createElement('option');
+      option.value = CampaignID;
+      option.textContent = `${Name} (Sent ${SentDate})`;
+      campaignsMenu.appendChild(option);
     });
     campaignsMenu.style.display = 'block';
     campaignsMenu.addEventListener('change', () => {
@@ -43,21 +59,29 @@ const activateCampaignsMenu = (campaigns) => {
 };
 
 const fetchCampaignData = (cid = '', success, error) => {
-  $.ajax({
-    type: 'GET',
-    url: '/api',
-    data: { cid },
-    success,
-    error: error || ((xhr, type) => {
+  fetch(`/api?cid=${cid}`)
+    .then((response) => response.json())
+    .then(success)
+    .catch(error || ((xhr, type) => {
       console.log('xhr', xhr); // eslint-disable-line no-console
       console.log('type', type); // eslint-disable-line no-console
-    })
-  });
+    }));
 }
+
+const getChartElement = (chartId) => {
+  let chart = document.getElementById(chartId);
+  if (!chart) {
+    chart = document.createElement('canvas');
+    chart.id = chartId;
+    document.body.appendChild(chart);
+    console.log(chart);
+  }
+  return chart;
+};
 
 const drawResults = (type, results, { Name }) => {
   const data = parseChartData(results);
-  const myPieChart = new Chart('chart', {
+  const myPieChart = new Chart(getChartElement('chart'), {
     type,
     data,
     options: {
@@ -92,7 +116,7 @@ const drawResults = (type, results, { Name }) => {
   });
 };
 
-$(() => {
+const ready = () => {
   const campaignId = getCampaignId();
   fetchCampaignData(campaignId, ({ campaign, campaigns, results }) => {
     if (campaigns) {
@@ -102,4 +126,12 @@ $(() => {
       drawResults('pie', results, campaign);
     }
   });
-});
+};
+
+{
+  if (document.readyState != 'loading'){
+    ready();
+  } else {
+    document.addEventListener('DOMContentLoaded', ready);
+  }
+}
