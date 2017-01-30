@@ -74,7 +74,6 @@ const getChartElement = (chartId) => {
     chart = document.createElement('canvas');
     chart.id = chartId;
     document.body.appendChild(chart);
-    console.log(chart);
   }
   return chart;
 };
