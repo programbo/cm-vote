@@ -1,16 +1,178 @@
+@import 'helpers/variables';
+
 body {
-  padding: 20px;
-  font: 14px 'Freight Display W01 Bol1197167', Helvetica, Arial, sans-serif;
-  background-color: hsl(300, 85%, 15%);
+  font: 12px/20px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  background-color: #000;
+  color: $white;
+}
+h1 {
+  font-weight: 400;
+  margin-bottom: 70px;
+  span {
+    display: inline-block;
+    margin: 3px 0;
+    padding: 0 3px;
+    background-color: $white;
+    color: $blue;
+    font-size: 24px;
+    line-height: 52px;
+  }
+}
+h3 {
+  overflow: hidden;
+  font-size: 18px;
+  margin-bottom: 0.5em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 a {
-  color: #00B7FF;
+  color: $white;
+  text-decoration: underline;
 }
-#chart {
-  max-width: 700px;
+#campaigns-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 60px;
   margin: 0 auto;
+  font-size: 3em;
 }
 select {
-  display: none;
-  font-size: 2em;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  background-color: transparent;
+  border-style: none;
+  color: $white;
+  cursor: pointer;
+  transition: background-color 200ms ease;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  text-indent: 0.01px;
+  text-outline: '';
+  outline: none;
+  &:hover {
+    background-color: rgba($white, 0.2);
+  }
+  &:focus {
+    outline: none;
+  }
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+  }
+}
+option {
+  background-color: lightgray;
+  padding: 10px 20px;
+}
+ul {
+  display: inline-block;
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;
+}
+li {
+  overflow: hidden;
+  padding: 0.5em 1em;
+  font-size: 16px;
+  text-align: left;
+  list-style-type: none;
+  &:nth-child(odd) {
+    background-color: rgba($white, 0.2);
+  }
+  p {
+    &:before {
+      content: 'Example vote URL: ';
+    }
+  }
+  code {
+    color: $grey;
+    text-decoration: underline;
+  }
+}
+header {
+  padding: 26px 0 36px;
+  background-color: $white;
+}
+footer {
+  padding: 12px 0;
+}
+.logo {
+  display: block;
+  margin: 0 auto;
+}
+.contact {
+  padding: 43px 0 36px;
+  background-color: $grey;
+  &__links {
+    padding-bottom: 40px;
+    text-align: center;
+  }
+  &__link {
+    display: inline-block;
+    margin: 0 7px;
+  }
+  &__address {
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+.content {
+  padding: 70px 0 80px;
+  text-align: center;
+  background-color: $blue;
+}
+#content {
+  &-wrapper {
+    position: relative;
+    min-height: 300px;
+    margin: 0 auto;
+  }
+}
+#chart {
+  max-width: 330px;
+  margin: 0 auto;
+}
+.legend {
+  &-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+  }
+  position: absolute;
+  right: 0;
+  width: 94px;
+  font-size: 24px;
+  line-height: 52px;
+  transform: translateY(-50%);
+  .label {
+    display: block;
+    background-color: $red;
+    border-bottom: 3px solid darken($red, 10%);
+  }
+  .result {
+    display: block;
+  }
+  &:last-child {
+    right: auto;
+    left: 0;
+    .label {
+      background-color: $orange;
+      border-bottom: 3px solid darken($orange, 10%);
+    }
+  }
+}
+.spinner {
+  padding: 30px;
 }

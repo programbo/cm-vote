@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 import { getCampaigns, getClicks } from '../helpers/campaignmonitor';
-import { removeMultipleVotes, removeOldVotes, tallyVotes } from '../helpers';
+import { extractVotes, removeMultipleVotes, removeOldVotes, tallyVotes } from '../helpers';
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -15,22 +15,22 @@ router.get('/', (req, res, next) => {
       if (campaign) {
         responseData.campaign = campaign;
         getClicks(cid)
-          .then((clicks) => Promise.resolve(tallyVotes(removeOldVotes(removeMultipleVotes(clicks)))))
+          .then((clicks) => Promise.resolve(tallyVotes(removeOldVotes(removeMultipleVotes(extractVotes(clicks))))))
           .then((results) => {
             responseData.results = results;
-            html ? res.render('index', responseData) : res.json(responseData);
+            html ? res.render('index', responseData) : res.status(200).json(responseData);
           })
-          .catch((err) => {
-            console.log('getClicks error', err); // eslint-disable-line no-console
+          .catch(({ response: { status, data }}) => {
+            res.status(500).json({ data });
           })
       }
       else {
         responseData.campaigns = campaigns;
-        html ? res.render('index', responseData) : res.json(responseData);
+        html ? res.render('index', responseData) : res.status(200).json(responseData);
       }
     })
-    .catch((err) => {
-      console.log('getCampaigns error', err); // eslint-disable-line no-console
+    .catch(({ response: { status, data }}) => {
+      res.status(status).json({ data });
     })
 });
 

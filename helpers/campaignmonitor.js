@@ -11,6 +11,8 @@ const getQueryForUrl = (url) => ({ method, auth, url });
 
 export const getCampaigns = () => axios(getQueryForUrl(`https://api.createsend.com/api/v3.1/clients/${clientId}/campaigns.json`));
 
+export const getUnsentCampaigns = () => axios(getQueryForUrl(`https://api.createsend.com/api/v3.1/clients/${clientId}/drafts.json`));
+
 const getClicksForPage = (campaignId, page = 1) => axios(getQueryForUrl(`https://api.createsend.com/api/v3.1/campaigns/${campaignId}/clicks.json?page=${page}`));
 
 export const getClicks = (campaignId) => new Promise((resolve, reject) => {

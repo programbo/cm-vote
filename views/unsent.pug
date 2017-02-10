@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1: span Unsent Campaigns
+  ul
+    each campaign in campaigns
+      li
+        h3 #{campaign.Name}
+        p
+          code https://#[span.domain example.com]/vote/#{campaign.CampaignID}/Yes

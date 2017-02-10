@@ -1,8 +1,4 @@
-export const removeOldVotes = (votes) => votes.reduce((urls, { URL, EmailAddress, Date }) => {
-  const data = { EmailAddress, Date };
-  urls[URL] ? urls[URL].push(data) : (urls[URL] = [data]);
-  return urls;
-}, {});
+export const extractVotes = (clicks) => clicks.filter(({ URL }) => (/\/vote\/.+/).test(URL));
 
 export const removeMultipleVotes = (clicks) => {
   const votes = {};
@@ -11,6 +7,12 @@ export const removeMultipleVotes = (clicks) => {
   });
   return Object.keys(votes).map((email) => votes[email]);
 };
+
+export const removeOldVotes = (votes) => votes.reduce((urls, { URL, EmailAddress, Date }) => {
+  const data = { EmailAddress, Date };
+  urls[URL] ? urls[URL].push(data) : (urls[URL] = [data]);
+  return urls;
+}, {});
 
 export const tallyVotes = (urls) => Object.keys(urls).reduce((votes, url) => {
   votes[url.split('/').pop()] = urls[url].length;
